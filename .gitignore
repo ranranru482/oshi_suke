@@ -1,0 +1,83 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# ----------------------------------------------------------------------------
+# 推しスケで追加除外
+# ----------------------------------------------------------------------------
+
+# Android: ローカル端末固有の SDK パスを含む。絶対にコミットしない。
+/android/local.properties
+
+# Android: ビルドキャッシュ (Gradle / Kotlin)
+/android/.gradle/
+/android/.kotlin/
+/android/captures/
+/android/app/build/
+
+# Android: 署名キー (将来 release 用に作成した場合に備えて)
+/android/key.properties
+/android/app/upload-keystore.jks
+/android/app/release-keystore.jks
+
+# Android: Firebase 設定 (将来 FCM / Analytics 等を入れたら使う)
+/android/app/google-services.json
+
+# iOS: CocoaPods + Firebase 設定
+/ios/Pods/
+/ios/.symlinks/
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/flutter_export_environment.sh
+/ios/Runner/GoogleService-Info.plist
+
+# プロジェクト固有のシークレット (`.secrets.dart` 等を作る場合に備えて)
+/lib/secrets.dart
+.env
+.env.local
+
+# OS / エディタの一時ファイル
+Thumbs.db
+ehthumbs.db
+Desktop.ini

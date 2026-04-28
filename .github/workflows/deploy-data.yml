@@ -1,0 +1,65 @@
+# public_data/ を GitHub Pages に配信する任意ワークフロー。
+#
+# このワークフローは、リポジトリの GitHub Pages 設定で
+#   Settings → Pages → Source = "GitHub Actions"
+# を選んでいるときにのみ実行されます。
+# Source = "Deploy from a branch" を使う構成なら、このファイルは無効のまま残しておいて OK。
+#
+# 配信される URL:
+#   https://<owner>.github.io/<repo>/works.json
+#   https://<owner>.github.io/<repo>/events.json
+#
+# (この方式なら baseUrl は `https://<owner>.github.io/<repo>` で済む)
+#
+# 詳細: docs/github_pages_setup.md § 7
+
+name: Deploy public_data to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public_data/**'
+      - '.github/workflows/deploy-data.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時実行は最新分だけ残す
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate JSON
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: JSON syntax check
+        run: |
+          python -m json.tool public_data/works.json > /dev/null
+          python -m json.tool public_data/events.json > /dev/null
+          echo "✓ JSON syntax OK"
+
+  deploy:
+    name: Deploy public_data to Pages
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload public_data artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public_data
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
